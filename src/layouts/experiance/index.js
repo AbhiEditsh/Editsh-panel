@@ -15,6 +15,7 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import { Alert } from "@mui/material";
 
 function Experience() {
   const [image, setImage] = useState({ url: "", public_id: "" });
@@ -28,7 +29,7 @@ function Experience() {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get("https://editsh-back.onrender.com/api/experince/view");
+      const response = await axios.get("https://editsh-back-anft.onrender.com/api/experince/view");
       setExperiences(response.data.data);
     } catch (err) {
       console.error(err);
@@ -38,7 +39,9 @@ function Experience() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back.onrender.com/api/experince/${id}`);
+      const response = await axios.delete(
+        `https://editsh-back-anft.onrender.com/api/experince/${id}`
+      );
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTestimonials();
@@ -70,7 +73,7 @@ function Experience() {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   const response = await axios.post(
-                    "https://editsh-back.onrender.com/api/experince/add",
+                    "https://editsh-back-anft.onrender.com/api/experince/add",
                     values
                   );
                   console.log(response);
@@ -189,9 +192,9 @@ function Experience() {
                   </Grid>
                 ))
               ) : (
-                <MDTypography variant="h6" textAlign="center" width="100%">
+                <Alert severity="error" fullwidth>
                   No Experience available.
-                </MDTypography>
+                </Alert>
               )}
             </Grid>
           </Grid>

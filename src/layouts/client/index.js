@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
@@ -15,7 +14,7 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 
 function Clients() {
   const [image, setImage] = useState({ url: "", public_id: "" });
@@ -40,7 +39,7 @@ function Clients() {
 
       try {
         const response = await axios.post(
-          "https://editsh-back.onrender.com/api/upload-image",
+          "https://editsh-back-anft.onrender.com/api/upload-image",
           formData,
           {
             headers: {
@@ -62,7 +61,7 @@ function Clients() {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get("https://editsh-back.onrender.com/api/clients/view");
+      const response = await axios.get("https://editsh-back-anft.onrender.com/api/clients/view");
       setClients(response.data.data);
     } catch (err) {
       console.error(err);
@@ -72,7 +71,9 @@ function Clients() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back.onrender.com/api/clients/${id}`);
+      const response = await axios.delete(
+        `https://editsh-back-anft.onrender.com/api/clients/${id}`
+      );
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTestimonials();
@@ -99,7 +100,7 @@ function Clients() {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   const response = await axios.post(
-                    "https://editsh-back.onrender.com/api/clients/add",
+                    "https://editsh-back-anft.onrender.com/api/clients/add",
                     values
                   );
                   toast.success(response.data.message);
@@ -192,9 +193,9 @@ function Clients() {
                   </Grid>
                 ))
               ) : (
-                <MDTypography variant="h6" textAlign="center" width="100%">
+                <Alert severity="error" fullwidth>
                   No Clients available.
-                </MDTypography>
+                </Alert>
               )}
             </Grid>
           </Grid>

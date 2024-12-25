@@ -9,7 +9,7 @@ export default function Data() {
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
-        const response = await axios.get("https://editsh-back.onrender.com/api/gettouch/view");
+        const response = await axios.get("https://editsh-back-anft.onrender.com/api/gettouch/view");
         setCandidates(response?.data?.data);
         console.log("resume", response.data?.data); // Logging the fetched data
       } catch (error) {
@@ -63,10 +63,9 @@ export default function Data() {
           }
           arrow
         >
-          <MDTypography component="a" href={candidate?.resumeImage} target="_blank" color="text">
+          <MDTypography component="a" href={candidate?.document} target="_blank" color="text">
             <Avatar
-              alt={`${candidate.firstName} ${candidate.lastName}`}
-              src={candidate?.resumeImage}
+              src={candidate?.document}
               sx={{
                 borderRadius: "50%",
                 transition: "transform 0.3s ease-in-out",

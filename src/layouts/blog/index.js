@@ -9,7 +9,6 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
@@ -17,7 +16,7 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import MDButtonRoot from "components/MDButton/MDButtonRoot";
+import { Alert } from "@mui/material";
 
 function Blog() {
   const [blogImage, setBlogImage] = useState("");
@@ -35,7 +34,7 @@ function Blog() {
 
         try {
           const response = await axios.post(
-            "https://editsh-back.onrender.com/api/upload-image",
+            "https://editsh-back-anft.onrender.com/api/upload-image",
             formData,
             {
               headers: {
@@ -89,7 +88,10 @@ function Blog() {
     onSubmit: async (values) => {
       console.log("Form data", values);
       try {
-        const response = await axios.post("https://editsh-back.onrender.com/api/blogs/add", values);
+        const response = await axios.post(
+          "https://editsh-back-anft.onrender.com/api/blogs/add",
+          values
+        );
         console.log(response);
         toast.success(response.data.message);
       } catch (error) {
@@ -110,7 +112,7 @@ function Blog() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://editsh-back.onrender.com/api/blogs/view");
+      const response = await axios.get("https://editsh-back-anft.onrender.com/api/blogs/view");
       setBlogs(response.data);
     } catch (err) {
       console.error(err);
@@ -120,7 +122,7 @@ function Blog() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back.onrender.com/api/blogs/${id}`);
+      const response = await axios.delete(`https://editsh-back-anft.onrender.com/api/blogs/${id}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchBlogs();
@@ -343,9 +345,9 @@ function Blog() {
                   </Grid>
                 ))
               ) : (
-                <MDTypography variant="h6" textAlign="center" width="100%">
+                <Alert severity="error" fullwidth>
                   No Blogs available.
-                </MDTypography>
+                </Alert>
               )}
             </Grid>
           </Grid>

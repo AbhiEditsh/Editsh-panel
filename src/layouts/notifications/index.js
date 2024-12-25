@@ -9,7 +9,6 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
@@ -36,7 +35,7 @@ function Notifications() {
       formData.append("image", file);
 
       axios
-        .post("https://editsh-back.onrender.com/api/upload-image", formData, {
+        .post("https://editsh-back-anft.onrender.com/api/upload-image", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {
@@ -55,7 +54,7 @@ function Notifications() {
 
   const fetchTechnology = async () => {
     try {
-      const response = await axios.get("https://editsh-back.onrender.com/api/technology/view");
+      const response = await axios.get("https://editsh-back-anft.onrender.com/api/technology/view");
       setTechnology(response?.data?.data || []);
     } catch (err) {
       console.error(err);
@@ -65,7 +64,9 @@ function Notifications() {
 
   const handleDeleteTechnology = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back.onrender.com/api/technology/${id}`);
+      const response = await axios.delete(
+        `https://editsh-back-anft.onrender.com/api/technology/${id}`
+      );
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTechnology();
@@ -99,7 +100,7 @@ function Notifications() {
                 try {
                   console.log("Form values:", values); // Debugging
                   const response = await axios.post(
-                    "https://editsh-back.onrender.com/api/technology/add",
+                    "https://editsh-back-anft.onrender.com/api/technology/add",
                     values
                   );
                   toast.success(response.data.message);

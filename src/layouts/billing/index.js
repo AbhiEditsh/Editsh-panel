@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -7,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
+import { Alert, Rating } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -16,6 +16,9 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import StarIcon from "@mui/icons-material/Star";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
 function Testimonial() {
   const [image, setImage] = useState({ url: "", public_id: "" });
@@ -25,6 +28,7 @@ function Testimonial() {
     ClientName: Yup.string().required("Client Name is required"),
     ClientImage: Yup.string().required("Client Image is required"),
     Review: Yup.string().required("Review is required"),
+    rating: Yup.number().min(1, "Rating is required").required("Rating is required"),
   });
 
   const handleFileChange = async (event, setFieldValue) => {
@@ -35,7 +39,7 @@ function Testimonial() {
 
       try {
         const response = await axios.post(
-          "https://editsh-back.onrender.com/api/upload-image",
+          "https://editsh-back-anft.onrender.com/api/upload-image",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -54,9 +58,47 @@ function Testimonial() {
     }
   };
 
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <>
+        {/* Render full stars */}
+        {Array.from({ length: fullStars }).map((_, i) => (
+          <StarIcon
+            key={`full-${i}`}
+            sx={{
+              fontSize: "14px",
+            }}
+          />
+        ))}
+        {hasHalfStar && (
+          <StarHalfIcon
+            key="half-star"
+            sx={{
+              fontSize: "14px",
+            }}
+          />
+        )}
+        {Array.from({ length: emptyStars }).map((_, i) => (
+          <StarOutlineIcon
+            key={`empty-${i}`}
+            sx={{
+              fontSize: "14px",
+            }}
+          />
+        ))}
+      </>
+    );
+  };
+
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get("https://editsh-back.onrender.com/api/testimonial/view");
+      const response = await axios.get(
+        "https://editsh-back-anft.onrender.com/api/testimonial/view"
+      );
       setTestimonials(response.data.data);
     } catch (err) {
       console.error(err);
@@ -66,7 +108,9 @@ function Testimonial() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back.onrender.com/api/testimonial/${id}`);
+      const response = await axios.delete(
+        `https://editsh-back-anft.onrender.com/api/testimonial/${id}`
+      );
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTestimonials();
@@ -92,12 +136,13 @@ function Testimonial() {
                 ClientName: "",
                 ClientImage: "",
                 Review: "",
+                rating: 0,
               }}
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   const response = await axios.post(
-                    "https://editsh-back.onrender.com/api/technology/add",
+                    "https://editsh-back-anft.onrender.com/api/testimonial/add",
                     values
                   );
                   toast.success(response.data.message);
@@ -111,7 +156,7 @@ function Testimonial() {
                 }
               }}
             >
-              {({ errors, touched, isSubmitting, setFieldValue }) => (
+              {({ errors, touched, isSubmitting, setFieldValue, values }) => (
                 <Form>
                   <Box display="flex" flexDirection="column" gap={2} alignItems="center">
                     <input
@@ -158,6 +203,19 @@ function Testimonial() {
                       error={touched.Review && !!errors.Review}
                       helperText={touched.Review && errors.Review}
                     />
+                    <Box display="flex" flexDirection="column" alignItems="center" gap={1}>
+                      <MDTypography variant="body2">Rating</MDTypography>
+                      <Rating
+                        name="rating"
+                        value={values.rating}
+                        onChange={(event, newValue) => setFieldValue("rating", newValue)}
+                      />
+                      {errors.rating && touched.rating && (
+                        <MDTypography color="error" variant="caption">
+                          {errors.rating}
+                        </MDTypography>
+                      )}
+                    </Box>
                     <MDButton
                       type="submit"
                       variant="contained"
@@ -195,6 +253,15 @@ function Testimonial() {
                         <MDTypography variant="body2" color="text">
                           {testimonial.Review}
                         </MDTypography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: 0.5,
+                          }}
+                        >
+                          {renderStars(testimonial.rating)}
+                        </Box>
                         <MDButton
                           variant="text"
                           color="error"
@@ -209,9 +276,9 @@ function Testimonial() {
                   </Grid>
                 ))
               ) : (
-                <MDTypography variant="h6" textAlign="center" width="100%">
+                <Alert severity="error" fullwidth>
                   No testimonials available.
-                </MDTypography>
+                </Alert>
               )}
             </Grid>
           </Grid>
