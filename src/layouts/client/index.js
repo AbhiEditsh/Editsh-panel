@@ -193,7 +193,14 @@ function Clients() {
                   </Grid>
                 ))
               ) : (
-                <Alert severity="error" fullwidth>
+                <Alert
+                  severity="error"
+                  fullWidth
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
                   No Clients available.
                 </Alert>
               )}

@@ -290,7 +290,7 @@ function Blog() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <label>Other Details</label>
+                  <MDTypography sx={{ mb: 2 }}>Other Details</MDTypography>
                   <ReactQuill
                     ref={quillRef}
                     value={formik.values.otherDetails}
@@ -345,7 +345,14 @@ function Blog() {
                   </Grid>
                 ))
               ) : (
-                <Alert severity="error" fullwidth>
+                <Alert
+                  severity="error"
+                  fullWidth
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
                   No Blogs available.
                 </Alert>
               )}

@@ -192,7 +192,14 @@ function Experience() {
                   </Grid>
                 ))
               ) : (
-                <Alert severity="error" fullwidth>
+                <Alert
+                  severity="error"
+                  fullWidth
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
                   No Experience available.
                 </Alert>
               )}

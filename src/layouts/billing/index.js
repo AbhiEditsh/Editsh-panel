@@ -276,7 +276,14 @@ function Testimonial() {
                   </Grid>
                 ))
               ) : (
-                <Alert severity="error" fullwidth>
+                <Alert
+                  severity="error"
+                  fullwidth
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
                   No testimonials available.
                 </Alert>
               )}

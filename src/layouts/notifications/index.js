@@ -16,6 +16,7 @@ import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import { Alert } from "@mui/material";
 
 function Notifications() {
   const navigate = useNavigate();
@@ -185,56 +186,69 @@ function Notifications() {
           </Grid>
           <Grid item xs={12} lg={8}>
             <Grid container spacing={3}>
-              {technology.map((tech) => (
-                <Grid item xs={12} sm={6} md={3} key={tech._id}>
-                  <Card>
-                    <MDBox p={2} mx={3} display="flex" justifyContent="center">
-                      <MDBox
-                        display="grid"
-                        justifyContent="center"
-                        alignItems="center"
-                        color="white"
-                        width="5rem"
-                        height="5rem"
-                        shadow="md"
-                        borderRadius="lg"
-                        variant="gradient"
-                      >
-                        <img
-                          src={tech.LanguagesLogo}
-                          alt={tech.LanguagesName}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            borderRadius: "inherit",
-                          }}
-                        />
+              {technology.length > 0 ? (
+                technology.map((tech) => (
+                  <Grid item xs={12} sm={6} md={3} key={tech._id}>
+                    <Card>
+                      <MDBox p={2} mx={3} display="flex" justifyContent="center">
+                        <MDBox
+                          display="grid"
+                          justifyContent="center"
+                          alignItems="center"
+                          color="white"
+                          width="5rem"
+                          height="5rem"
+                          shadow="md"
+                          borderRadius="lg"
+                          variant="gradient"
+                        >
+                          <img
+                            src={tech.LanguagesLogo}
+                            alt={tech.LanguagesName}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              borderRadius: "inherit",
+                            }}
+                          />
+                        </MDBox>
                       </MDBox>
-                    </MDBox>
-                    <MDBox pb={2} px={2} textAlign="center" lineHeight={1.25}>
-                      <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-                        {tech.LanguagesName}
-                      </MDTypography>
-                      <MDTypography variant="caption" color="text" fontWeight="regular">
-                        {tech.Experience}-{tech.Qualification}
-                      </MDTypography>
-                      <MDTypography variant="h5" fontWeight="medium">
-                        {tech.workTime}
-                      </MDTypography>
-                    </MDBox>
-                    <MDBox display="flex" justifyContent="center" mt={{ xs: 2, sm: 0 }}>
-                      <MDButton
-                        variant="text"
-                        color="error"
-                        onClick={() => handleDeleteTechnology(tech._id)}
-                      >
-                        <Icon>delete</Icon>&nbsp;delete
-                      </MDButton>
-                    </MDBox>
-                  </Card>
-                </Grid>
-              ))}
+                      <MDBox pb={2} px={2} textAlign="center" lineHeight={1.25}>
+                        <MDTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+                          {tech.LanguagesName}
+                        </MDTypography>
+                        <MDTypography variant="caption" color="text" fontWeight="regular">
+                          {tech.Experience}-{tech.Qualification}
+                        </MDTypography>
+                        <MDTypography variant="h5" fontWeight="medium">
+                          {tech.workTime}
+                        </MDTypography>
+                      </MDBox>
+                      <MDBox display="flex" justifyContent="center" mt={{ xs: 2, sm: 0 }}>
+                        <MDButton
+                          variant="text"
+                          color="error"
+                          onClick={() => handleDeleteTechnology(tech._id)}
+                        >
+                          <Icon>delete</Icon>&nbsp;delete
+                        </MDButton>
+                      </MDBox>
+                    </Card>
+                  </Grid>
+                ))
+              ) : (
+                <Alert
+                  severity="error"
+                  fullWidth
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  No testimonials available.
+                </Alert>
+              )}
             </Grid>
           </Grid>
         </Grid>
