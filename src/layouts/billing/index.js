@@ -96,9 +96,7 @@ function Testimonial() {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get(
-        "https://editsh-back-anft.onrender.com/api/testimonial/view"
-      );
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/testimonial/view`);
       setTestimonials(response.data.data);
     } catch (err) {
       console.error(err);
@@ -109,7 +107,7 @@ function Testimonial() {
   const handleDeleteTestimonial = async (id) => {
     try {
       const response = await axios.delete(
-        `https://editsh-back-anft.onrender.com/api/testimonial/${id}`
+        `${process.env.REACT_APP_API_BASE_URL}/testimonial/${id}`
       );
       if (response.status === 200) {
         toast.success(response.data.message);
@@ -142,7 +140,7 @@ function Testimonial() {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   const response = await axios.post(
-                    "https://editsh-back-anft.onrender.com/api/testimonial/add",
+                    `${process.env.REACT_APP_API_BASE_URL}/testimonial/add`,
                     values
                   );
                   toast.success(response.data.message);

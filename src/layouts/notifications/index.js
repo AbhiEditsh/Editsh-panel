@@ -36,7 +36,7 @@ function Notifications() {
       formData.append("image", file);
 
       axios
-        .post("https://editsh-back-anft.onrender.com/api/upload-image", formData, {
+        .post(`${process.env.REACT_APP_API_BASE_URL}/upload-image`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((response) => {
@@ -44,7 +44,7 @@ function Notifications() {
             url: response.data.url,
             public_id: response.data.public_id,
           });
-          setFieldValue("LanguagesLogo", response.data.url); // Ensure the field name matches
+          setFieldValue("LanguagesLogo", response.data.url);
         })
         .catch((error) => {
           console.error("Error uploading image:", error);
@@ -55,7 +55,7 @@ function Notifications() {
 
   const fetchTechnology = async () => {
     try {
-      const response = await axios.get("https://editsh-back-anft.onrender.com/api/technology/view");
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/technology/view`);
       setTechnology(response?.data?.data || []);
     } catch (err) {
       console.error(err);
@@ -65,9 +65,7 @@ function Notifications() {
 
   const handleDeleteTechnology = async (id) => {
     try {
-      const response = await axios.delete(
-        `https://editsh-back-anft.onrender.com/api/technology/${id}`
-      );
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/technology/${id}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTechnology();
@@ -99,9 +97,8 @@ function Notifications() {
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
-                  console.log("Form values:", values); // Debugging
                   const response = await axios.post(
-                    "https://editsh-back-anft.onrender.com/api/technology/add",
+                    `${process.env.REACT_APP_API_BASE_URL}/technology/add`,
                     values
                   );
                   toast.success(response.data.message);

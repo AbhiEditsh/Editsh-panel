@@ -39,7 +39,7 @@ function Clients() {
 
       try {
         const response = await axios.post(
-          "https://editsh-back-anft.onrender.com/api/upload-image",
+          `${process.env.REACT_APP_API_BASE_URL}/upload-image`,
           formData,
           {
             headers: {
@@ -61,7 +61,7 @@ function Clients() {
 
   const fetchTestimonials = async () => {
     try {
-      const response = await axios.get("https://editsh-back-anft.onrender.com/api/clients/view");
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/clients/view`);
       setClients(response.data.data);
     } catch (err) {
       console.error(err);
@@ -71,9 +71,7 @@ function Clients() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(
-        `https://editsh-back-anft.onrender.com/api/clients/${id}`
-      );
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/clients/${id}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchTestimonials();
@@ -100,7 +98,7 @@ function Clients() {
               onSubmit={async (values, { setSubmitting, resetForm }) => {
                 try {
                   const response = await axios.post(
-                    "https://editsh-back-anft.onrender.com/api/clients/add",
+                    `${process.env.REACT_APP_API_BASE_URL}/clients/add`,
                     values
                   );
                   toast.success(response.data.message);

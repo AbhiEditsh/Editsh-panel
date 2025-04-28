@@ -34,7 +34,7 @@ function Blog() {
 
         try {
           const response = await axios.post(
-            "https://editsh-back-anft.onrender.com/api/upload-image",
+            `${process.env.REACT_APP_API_BASE_URL}/upload-image`,
             formData,
             {
               headers: {
@@ -89,7 +89,7 @@ function Blog() {
       console.log("Form data", values);
       try {
         const response = await axios.post(
-          "https://editsh-back-anft.onrender.com/api/blogs/add",
+          `${process.env.REACT_APP_API_BASE_URL}/blogs/add`,
           values
         );
         console.log(response);
@@ -112,7 +112,7 @@ function Blog() {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get("https://editsh-back-anft.onrender.com/api/blogs/view");
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/blogs/view`);
       setBlogs(response.data);
     } catch (err) {
       console.error(err);
@@ -122,7 +122,7 @@ function Blog() {
 
   const handleDeleteTestimonial = async (id) => {
     try {
-      const response = await axios.delete(`https://editsh-back-anft.onrender.com/api/blogs/${id}`);
+      const response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/blogs/${id}`);
       if (response.status === 200) {
         toast.success(response.data.message);
         fetchBlogs();
